@@ -9,8 +9,8 @@ using SMTPServer::Core::Utilities::Queue;
 #include <Models/SocketMessage.h>
 using SMTPServer::Core::Models::SocketMessage;
 
-#include "SMTPMessageType.h"
-using SMTPServer::Application::TCP::SMTPMessageType;
+#include "SMTP/SMTPMessageType.h"
+using SMTPServer::Application::SMTP::SMTPMessageType;
 
 namespace SMTPServer::Application::TCP { class Connection; }
 
