@@ -13,6 +13,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../Binaries/$<CONFIG>/SMT
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../Binaries/$<CONFIG>/SMTPServer.Core)
 set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../Binaries/Intermediates/$<CONFIG>/SMTPServer.Core)
 
+# Include Asio
+set(ASIO_INCLUDE_DIR "D:\\Programs\\BuildTools\\asio-1.30.2\\include")
+include_directories(${ASIO_INCLUDE_DIR})
+
+# Define ASIO_STANDALONE
+add_definitions(-DASIO_STANDALONE)
+
 # Define the target
 add_library(SMTPServer.Core STATIC)
 
@@ -21,7 +28,7 @@ file(GLOB_RECURSE SOURCES "Source/*.cpp" "Source/*.h")
 
 # Source files and include directories
 target_sources(SMTPServer.Core PRIVATE ${SOURCES})
-target_include_directories(SMTPServer.Core PRIVATE Source)
+target_include_directories(SMTPServer.Core PRIVATE ${ASIO_INCLUDE_DIR} Source)
 
 # Add precompiled header
 target_precompile_headers(SMTPServer.Core PRIVATE Source/PCH.h)
@@ -57,3 +64,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_compile_options(SMTPServer.Core PRIVATE -O3)
 endif()
+
+# Link against ws2_32.lib and mswsock.lib for Windows sockets
+target_link_libraries(SMTPServer.Core PRIVATE ws2_32 mswsock)
