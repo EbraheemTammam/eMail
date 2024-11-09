@@ -2,10 +2,10 @@
 
 #include "PCH.h"
 
-namespace eMail::Core::Utilities { template<typename DataType> class Queue; }
+namespace eMail::Core { template<typename DataType> class Queue; }
 
 template<typename DataType>
-class eMail::Core::Utilities::Queue
+class eMail::Core::Queue
 {
 private:
     std::array<DataType, Q_SIZE> queue_;

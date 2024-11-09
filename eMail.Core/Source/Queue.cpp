@@ -1,6 +1,6 @@
 #include "Queue.h"
 
-namespace eMail::Core::Utilities
+namespace eMail::Core
 {
     template<typename DataType>
     const DataType& Queue<DataType>::Front() const

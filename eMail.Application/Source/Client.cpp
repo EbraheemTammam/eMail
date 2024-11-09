@@ -1,28 +1,25 @@
 #include "Client.h"
 
-namespace eMail::Application::Socket
+namespace eMail::Application
 {
-    template<typename DataType>
-    Client<DataType>::Client()
+    Client::Client(asio::ip::tcp::socket&& socket) :  socket_(std::move(socket))
     {
 
     }
 
-    template<typename DataType>
-    Client<DataType>::~Client()
+    Client::~Client()
     {
         Disconnect();
     }
 
-    template<typename DataType>
-    bool Client<DataType>::Connect(const std::string& ip, uint16_t port)
+    bool Client::Connect(const std::string& ip, uint16_t port)
     {
-        connection_ = std::make_unique<IConnection<DataType>>();
+        // connection_ = std::make_unique<Connection>();
 
         asio::ip::tcp::resolver resolver(context_);
         auto endpoints = resolver.resolve(ip, std::to_string(port));
 
-        connection_->Connect();
+        // connection_->Connect();
 
         receiveThread_ = std::thread(
             [this](){ context_.run(); }
@@ -31,8 +28,7 @@ namespace eMail::Application::Socket
         return true;
     }
 
-    template<typename DataType>
-    bool Client<DataType>::Disconnect()
+    bool Client::Disconnect()
     {
         if (this->IsConnected()) connection_->Disconnect();
 
@@ -42,5 +38,15 @@ namespace eMail::Application::Socket
         connection_.release();
 
         return true;
+    }
+
+    bool Client::IsConnected() const
+    {
+        return connection_ && connection_->IsConnected();
+    }
+
+    Queue<smtp_message>& Client::IncomingMessages()
+    {
+        return receiveQueue_;
     }
 }

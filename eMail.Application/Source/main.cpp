@@ -1,10 +1,10 @@
 #include <PCH.h>
 
-#include <Utilities/Logger.h>
-using eMail::Domain::Utilities::Logger;
+#include <Logger.h>
+using eMail::Core::Logger;
 
-#include "Socket/SocketManager.h"
-using eMail::Application::TCP::SocketManager;
+#include "SocketManager.h"
+using eMail::Application::SocketManager;
 
 
 int main()

@@ -1,8 +1,8 @@
 #include "SocketManager.h"
 
-namespace eMail::Application::TCP
+namespace eMail::Application
 {
-    SocketManager::SocketManager(ILogger& logger, short&& port) :
+    SocketManager::SocketManager(Logger& logger, short&& port) :
         _logger(logger),
         _port(port),
         _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::make_address("0.0.0.0"), port)),
@@ -11,7 +11,7 @@ namespace eMail::Application::TCP
 
     }
 
-    SocketManager& SocketManager::GetInstance(ILogger& logger, short&& port)
+    SocketManager& SocketManager::GetInstance(Logger& logger, short&& port)
     {
         static SocketManager instance(logger, (short&&)port);
         return instance;
@@ -29,7 +29,7 @@ namespace eMail::Application::TCP
                     return;
                 }
                 if (bytesTransferred > 0)
-                    _logger.infoAsync("Remote: " + std::string(_bufferRecieve.data(), bytesTransferred));
+                    _logger.info("Remote: " + std::string(_bufferRecieve.data(), bytesTransferred));
                 std::memset(_bufferRecieve.data(), 0, BUFFER_SIZE);
                 _readAsync();
             }
@@ -81,7 +81,7 @@ namespace eMail::Application::TCP
                     return;
                 }
                 if (bytesTransferred > 0)
-                    _logger.infoAsync("Local: " + std::string(_bufferSend.data(), BinarySearchBuffer(_bufferSend)));
+                    _logger.info("Local: " + std::string(_bufferSend.data(), BinarySearchBuffer(_bufferSend)));
                 std::memset(_bufferSend.data(), 0, BUFFER_SIZE);
                 _writeAsync();
             }

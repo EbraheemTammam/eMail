@@ -1,6 +1,6 @@
 #include "Connection.h"
 
-namespace eMail::Application::Socket
+namespace eMail::Core
 {
     Connection::Connection(
         owner owner,

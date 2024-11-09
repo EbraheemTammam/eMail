@@ -1,12 +1,12 @@
 #include "Server.h"
 
-namespace eMail::Application::Socket
+namespace eMail::Core
 {
     using _endpoint = asio::ip::tcp::endpoint;
 
-    Server::Server(uint16_t port, ILogger& logger) :
+    Server::Server(uint16_t port) :
         acceptor_(context_, _endpoint(asio::ip::make_address("0.0.0.0"), port)),
-        logger_(logger)
+        logger_(Logger::getInstance())
     {
 
     }
@@ -16,9 +16,9 @@ namespace eMail::Application::Socket
         Stop();
     }
 
-    Server& Server::getInstance(uint16_t port, ILogger& logger)
+    Server& Server::getInstance(uint16_t port)
     {
-        static Server instance(port, logger);
+        static Server instance(port);
         return instance;
     }
 
@@ -36,7 +36,7 @@ namespace eMail::Application::Socket
             logger_.error(e.what());
             return false;
         }
-        logger_.infoAsync("Server started on port " + std::to_string(acceptor_.local_endpoint().port()));
+        logger_.info("Server started on port " + std::to_string(acceptor_.local_endpoint().port()));
         return true;
     }
 
@@ -45,7 +45,7 @@ namespace eMail::Application::Socket
         acceptor_.cancel();
         context_.stop();
         if(acceptThread_.joinable()) acceptThread_.join();
-        logger_.infoAsync("Server stopped");
+        logger_.info("Server stopped");
     }
 
     bool Server::removeGapsFromConnectionList_()
@@ -97,7 +97,7 @@ namespace eMail::Application::Socket
                     return;
                 }
 
-                logger_.infoAsync(
+                logger_.info(
                     "Accepted connection from " +
                     socket.remote_endpoint().address().to_string() +
                     ":" +
@@ -113,20 +113,20 @@ namespace eMail::Application::Socket
 
                 if(!OnClientConnected(connection))
                 {
-                    logger_.infoAsync("Client connection denied");
+                    logger_.info("Client connection denied");
                     return;
                 }
 
                 if((connectionCursor_ == connectionList_.size()) && !removeGapsFromConnectionList_())
                 {
-                    logger_.infoAsync("Connection list full, rejecting connection");
+                    logger_.info("Connection list full, rejecting connection");
                     return;
                 }
 
                 connectionList_[connectionCursor_] = std::move(connection);
                 connectionList_[connectionCursor_]->Connect(idCounter_++);
 
-                logger_.infoAsync("Client connection approved with id: " + std::to_string(connectionList_[connectionCursor_]->GetId()));
+                logger_.info("Client connection approved with id: " + std::to_string(connectionList_[connectionCursor_]->GetId()));
                 ++connectionCursor_;
 
                 Accept();
@@ -134,7 +134,7 @@ namespace eMail::Application::Socket
         );
     }
 
-    void Server::Send(connection_ptr<smtp_message> remote, const smtp_message& message)
+    void Server::Send(connection_ptr remote, const smtp_message& message)
     {
         if (remote && remote->IsConnected())
         {
@@ -146,7 +146,7 @@ namespace eMail::Application::Socket
         remote.reset();
     }
 
-    void Server::Broadcast(const smtp_message& message, connection_ptr<smtp_message> ignoreClient)
+    void Server::Broadcast(const smtp_message& message, connection_ptr ignoreClient)
     {
         bool invalidClientDetected = false;
         for (auto& remote : connectionList_)
@@ -162,17 +162,17 @@ namespace eMail::Application::Socket
         if (invalidClientDetected) removeGapsFromConnectionList_();
     }
 
-    bool Server::OnClientConnected(connection_ptr<smtp_message> remote)
+    bool Server::OnClientConnected(connection_ptr remote)
     {
         return true;
     }
 
-    bool Server::OnClientDisconnected(connection_ptr<smtp_message> remote)
+    bool Server::OnClientDisconnected(connection_ptr remote)
     {
         return true;
     }
 
-    bool Server::OnMessageReceived(connection_ptr<smtp_message> remote, const smtp_message& message)
+    bool Server::OnMessageReceived(connection_ptr remote, const smtp_message& message)
     {
         // receiveQueue_.Push(message);
 

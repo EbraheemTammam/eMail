@@ -2,13 +2,10 @@
 
 #include "PCH.h"
 
-#include "Interfaces/IConnection.h"
-using eMail::Core::Interfaces::IConnection;
-
-namespace eMail::Core::Models { template<typename T> class SocketMessage; }
+namespace eMail::Core { template<typename T> class SocketMessage; }
 
 template<typename DataType>
-class eMail::Core::Models::SocketMessage
+class eMail::Core::SocketMessage
 {
 private:
     struct MessageHeader
@@ -16,7 +13,6 @@ private:
         DataType id{};
         uint32_t size{};
     };
-    std::shared_ptr<IConnection<DataType>> remote_ = nullptr;
 
     std::size_t GetPayloadSize_() const;
 

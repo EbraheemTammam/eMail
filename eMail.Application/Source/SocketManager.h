@@ -2,15 +2,15 @@
 
 #include "PCH.h"
 
-#include <Interfaces/ILogger.h>
-using eMail::Core::Interfaces::ILogger;
+#include <Logger.h>
+using eMail::Core::Logger;
 
-namespace eMail::Application::TCP { class SocketManager; }
+namespace eMail::Application { class SocketManager; }
 
-class eMail::Application::TCP::SocketManager
+class eMail::Application::SocketManager
 {
 public:
-    static SocketManager& GetInstance(ILogger&, short&& port = 25);
+    static SocketManager& GetInstance(Logger&, short&& port = 25);
     bool Shutdown();
     bool Accept();
     bool IsAccepting() const;
@@ -27,7 +27,7 @@ private:
     bool _isShutdown = false;
     bool _isAccepting = false;
 
-    ILogger& _logger;
+    Logger& _logger;
     mutable std::mutex _mutex;
 
     void _read();
@@ -35,7 +35,7 @@ private:
     std::future<void> _readAsync();
     std::future<void> _writeAsync();
 
-    SocketManager(ILogger&, short&& port = 25);
+    SocketManager(Logger&, short&& port = 25);
     SocketManager(const SocketManager&) = delete;
 
     SocketManager& operator=(const SocketManager&) = delete;

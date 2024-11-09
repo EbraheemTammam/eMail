@@ -1,6 +1,6 @@
 #include "Logger.h"
 
-namespace eMail::Core::Utilities
+namespace eMail::Core
 {
     Logger& Logger::getInstance()
     {
@@ -36,12 +36,6 @@ namespace eMail::Core::Utilities
         }
     }
 
-    std::future<void> Logger::logAsync(Logger::LogLevel level, std::string_view message)
-    {
-        if (level < logLevel_) return std::async([]{});
-        return std::async(std::launch::async, &Logger::log, this, level, message);
-    }
-
     void Logger::info(std::string_view message)
     {
         log(LogLevel::Info, message);
@@ -55,21 +49,6 @@ namespace eMail::Core::Utilities
     void Logger::error(std::string_view message)
     {
         log(LogLevel::Error, message);
-    }
-
-    std::future<void> Logger::infoAsync(std::string_view message)
-    {
-        return logAsync(LogLevel::Info, message);
-    }
-
-    std::future<void> Logger::warningAsync(std::string_view message)
-    {
-        return logAsync(LogLevel::Warning, message);
-    }
-
-    std::future<void> Logger::errorAsync(std::string_view message)
-    {
-        return logAsync(LogLevel::Error, message);
     }
 
     std::string Logger::getCurrentTime() const

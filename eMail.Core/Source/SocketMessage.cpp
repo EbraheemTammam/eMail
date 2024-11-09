@@ -1,6 +1,6 @@
 #include "SocketMessage.h"
 
-namespace eMail::Core::Models
+namespace eMail::Core
 {
     template<typename DataType>
     std::size_t SocketMessage<DataType>::GetPayloadSize_() const
