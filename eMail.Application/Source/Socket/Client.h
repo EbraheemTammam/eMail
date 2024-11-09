@@ -3,18 +3,18 @@
 #include "PCH.h"
 
 #include <Interfaces/IClient.h>
-using SMTPServer::Core::Interfaces::IClient;
+using eMail::Core::Interfaces::IClient;
 
 #include <Utilities/Queue.h>
-using SMTPServer::Core::Utilities::Queue;
+using eMail::Core::Utilities::Queue;
 
 #include <Models/SocketMessage.h>
-using SMTPServer::Core::Models::SocketMessage;
+using eMail::Core::Models::SocketMessage;
 
-namespace SMTPServer::Application::TCP { template<typename DataType> class Client; }
+namespace eMail::Application::Socket { template<typename DataType> class Client; }
 
 template<typename DataType>
-class SMTPServer::Application::TCP::Client : public SMTPServer::Core::Interfaces::IClient<DataType>
+class eMail::Application::Socket::Client : public eMail::Core::Interfaces::IClient<DataType>
 {
 private:
     asio::io_context context_;

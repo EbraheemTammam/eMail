@@ -1,8 +1,8 @@
 #pragma once
 
-namespace SMTPServer::Core::Interfaces { class ILogger; }
+namespace eMail::Core::Interfaces { class ILogger; }
 
-class SMTPServer::Core::Interfaces::ILogger
+class eMail::Core::Interfaces::ILogger
 {
 public:
     enum struct LogLevel { Info, Warning, Error };

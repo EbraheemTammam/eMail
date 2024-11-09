@@ -1,6 +1,6 @@
 #include "SocketManager.h"
 
-namespace SMTPServer::Application::TCP
+namespace eMail::Application::TCP
 {
     SocketManager::SocketManager(ILogger& logger, short&& port) :
         _logger(logger),

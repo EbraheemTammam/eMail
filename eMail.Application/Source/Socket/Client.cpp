@@ -1,6 +1,6 @@
 #include "Client.h"
 
-namespace SMTPServer::Application::TCP
+namespace eMail::Application::Socket
 {
     template<typename DataType>
     Client<DataType>::Client()

@@ -1,6 +1,6 @@
 #include "Logger.h"
 
-namespace SMTPServer::Core::Utilities
+namespace eMail::Core::Utilities
 {
     Logger& Logger::getInstance()
     {

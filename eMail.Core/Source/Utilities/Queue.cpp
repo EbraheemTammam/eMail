@@ -1,6 +1,6 @@
 #include "Queue.h"
 
-namespace SMTPServer::Core::Utilities
+namespace eMail::Core::Utilities
 {
     template<typename DataType>
     const DataType& Queue<DataType>::Front() const
@@ -8,6 +8,14 @@ namespace SMTPServer::Core::Utilities
         std::scoped_lock lock(mutex_);
         if (front_ == back_) throw std::runtime_error("Queue is empty");
         return &queue_[front_];
+    }
+
+    template<typename DataType>
+    const DataType& Queue<DataType>::Back() const
+    {
+        std::scoped_lock lock(mutex_);
+        if (front_ == back_) throw std::runtime_error("Queue is empty");
+        return &queue_[back_];
     }
 
     template<typename DataType>

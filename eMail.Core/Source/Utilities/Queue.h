@@ -2,10 +2,10 @@
 
 #include "PCH.h"
 
-namespace SMTPServer::Core::Utilities { template<typename DataType> class Queue; }
+namespace eMail::Core::Utilities { template<typename DataType> class Queue; }
 
 template<typename DataType>
-class SMTPServer::Core::Utilities::Queue
+class eMail::Core::Utilities::Queue
 {
 private:
     std::array<DataType, Q_SIZE> queue_;
@@ -24,6 +24,7 @@ public:
     Queue& operator=(Queue&) = delete;
 
     const DataType& Front() const;
+    const DataType& Back() const;
     void Push(const DataType& data);
     DataType Pop();
 

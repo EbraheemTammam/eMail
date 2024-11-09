@@ -3,9 +3,9 @@
 #include "PCH.h"
 #include "Interfaces/ILogger.h"
 
-namespace SMTPServer::Core::Utilities { class Logger; }
+namespace eMail::Core::Utilities { class Logger; }
 
-class SMTPServer::Core::Utilities::Logger : public SMTPServer::Core::Interfaces::ILogger
+class eMail::Core::Utilities::Logger : public eMail::Core::Interfaces::ILogger
 {
 public:
     static Logger& getInstance();

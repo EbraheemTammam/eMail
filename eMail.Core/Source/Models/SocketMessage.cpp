@@ -1,6 +1,6 @@
 #include "SocketMessage.h"
 
-namespace SMTPServer::Core::Models
+namespace eMail::Core::Models
 {
     template<typename DataType>
     std::size_t SocketMessage<DataType>::GetPayloadSize_() const
@@ -29,7 +29,7 @@ namespace SMTPServer::Core::Models
     }
 
     template<typename DataType>
-    size_t SocketMessage<DataType>::Size() const
+    std::size_t SocketMessage<DataType>::Size() const
     {
         return sizeof(Header) + GetPayloadSize_();
     }

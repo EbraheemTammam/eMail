@@ -3,12 +3,12 @@
 #include "PCH.h"
 
 #include "Interfaces/IConnection.h"
-using SMTPServer::Core::Interfaces::IConnection;
+using eMail::Core::Interfaces::IConnection;
 
-namespace SMTPServer::Core::Models { template<typename T> class SocketMessage; }
+namespace eMail::Core::Models { template<typename T> class SocketMessage; }
 
 template<typename DataType>
-class SMTPServer::Core::Models::SocketMessage
+class eMail::Core::Models::SocketMessage
 {
 private:
     struct MessageHeader

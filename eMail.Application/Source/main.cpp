@@ -1,10 +1,10 @@
 #include <PCH.h>
 
 #include <Utilities/Logger.h>
-using SMTPServer::Core::Utilities::Logger;
+using eMail::Domain::Utilities::Logger;
 
-#include "TCP/SocketManager.h"
-using SMTPServer::Application::TCP::SocketManager;
+#include "Socket/SocketManager.h"
+using eMail::Application::TCP::SocketManager;
 
 
 int main()
@@ -14,13 +14,10 @@ int main()
     logger.setOutput(Logger::Output::Console);
     logger.info("Hello World!");
 
-    int a;
-    int b{};
-
-    logger.setOutput(Logger::Output::All);
-    SocketManager& socketManager = SocketManager::GetInstance(logger);
+    // logger.setOutput(Logger::OutpSocketut::All);
+    // SocketManager& socketManager = SocketManager::GetInstance(logger);
     // logger.info(("Is Accepting: ") + std::string(socketManager.IsAccepting() ? "true" : "false"));
-    socketManager.Accept();
+    // socketManager.Accept();
 
     return 0;
 }

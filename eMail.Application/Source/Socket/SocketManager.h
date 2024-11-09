@@ -3,11 +3,11 @@
 #include "PCH.h"
 
 #include <Interfaces/ILogger.h>
-using SMTPServer::Core::Interfaces::ILogger;
+using eMail::Core::Interfaces::ILogger;
 
-namespace SMTPServer::Application::TCP { class SocketManager; }
+namespace eMail::Application::TCP { class SocketManager; }
 
-class SMTPServer::Application::TCP::SocketManager
+class eMail::Application::TCP::SocketManager
 {
 public:
     static SocketManager& GetInstance(ILogger&, short&& port = 25);
